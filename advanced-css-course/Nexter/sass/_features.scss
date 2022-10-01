@@ -1,0 +1,32 @@
+.features {
+  grid-column: center-start / center-end;
+  margin: 15rem 0;
+
+  display: grid;
+  // grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
+  gap: 6rem;
+  align-items: start;
+}
+
+.feature {
+  display: grid;
+  grid-template-columns: min-content 1fr;
+  gap: 1.5rem 2.5rem;
+
+  &__icon {
+    fill: $color-primary;
+    width: 4.5rem;
+    height: 4.5rem;
+    // INFO
+    // grid-row: 1 / -1 we can't use, because -1 stand the end of EXPLICIT grid. But we don't set rows and have only ONe row in explicit grid.
+    // span 2 - as same as 1/-1 in this case
+    // INFO
+    grid-row: 1 / span 2;
+    transform: translateY(-1rem);
+  }
+
+  &__text {
+    font-size: 1.7rem;
+  }
+}

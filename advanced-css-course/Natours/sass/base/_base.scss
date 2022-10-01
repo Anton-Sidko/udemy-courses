@@ -1,0 +1,39 @@
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+html {
+  /* INFO Default browser root font-size 16px - we want 10px. Defines what 1rem is */
+  font-size: 62.5%; // 1rem = 10px
+
+  @include respond(big-desk) {
+    font-size: 75%; // 12px
+  }
+
+  @include respond(tab-land) {
+    font-size: 56.25%; // 9px
+  }
+
+  @include respond(tab-port) {
+    font-size: 50%; // 8px
+  }
+}
+
+body {
+  padding: 3rem;
+  box-sizing: border-box;
+
+  @include respond(tab-port) {
+    padding: 0;
+  }
+}
+
+// INFO change color of selection text
+*::selection {
+  background-color: $color-primary;
+  color: $color-white;
+}
