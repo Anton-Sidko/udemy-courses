@@ -1,7 +1,7 @@
-import CategoriesWrapper from '../../components/categories-wrapper/categories-wrapper.component';
+import Directory from '../../components/directory/directory.component';
 
 const Home = () => {
-  return <CategoriesWrapper />;
+  return <Directory />;
 };
 
 export default Home;
