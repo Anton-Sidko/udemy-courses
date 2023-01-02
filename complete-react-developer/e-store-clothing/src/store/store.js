@@ -4,20 +4,23 @@ import storage from 'redux-persist/lib/storage';
 
 import logger from 'redux-logger'; //INFO not necessary but help see how store works
 // import { loggerMiddleware } from './middleware/logger';
+import thunk from 'redux-thunk';
 
 import { rootReducer } from './root-reducer';
 
-// INFO for logger
+// INFO for logger, thunk
 // const middleWares = [loggerMiddleware];
-const middleWares = [process.env.NODE_ENV !== 'production' && logger].filter(
-  Boolean
-);
+const middleWares = [
+  process.env.NODE_ENV !== 'production' && logger,
+  thunk,
+].filter(Boolean);
 
 // INFO Redux persist config
 const persistConfig = {
   key: 'root',
   storage,
-  blackList: ['user'],
+  // blackList: ['user', 'categories'] // INFO don't persist it,
+  whitelist: ['cart'],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
