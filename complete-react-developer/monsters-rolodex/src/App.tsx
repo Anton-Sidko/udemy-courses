@@ -1,37 +1,59 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, ChangeEvent } from 'react';
 
-import './App.css';
 import CardList from './components/card-list/card-list.component';
 import SearchBox from './components/search-box/search-box.component';
 
+import './App.css';
+
+import { getData } from './utils/data.utils';
+
+export type Monster = {
+  id: string;
+  name: string;
+  email: string;
+};
+
 const App = () => {
   const [search, setSearch] = useState(''); // [value, setValue]
-  const [monsters, setMonsters] = useState([]);
-  const [filteredMonsters, setFilteredMonsters] = useState([]);
+  const [monsters, setMonsters] = useState<Monster[]>([]);
+  const [filteredMonsters, setFilteredMonsters] = useState(monsters);
 
   useEffect(() => {
-    fetch('https://jsonplaceholder.typicode.com/users')
-      .then(response => {
-        if (!response.ok)
-          throw new Error('Something went wrong! Try again please.');
+    // fetch('https://jsonplaceholder.typicode.com/users')
+    //   .then(response => {
+    //     if (!response.ok)
+    //       throw new Error('Something went wrong! Try again please.');
+    //     return response.json();
+    //   })
+    //   .then(users => {
+    //     setMonsters(users);
+    //     setFilteredMonsters(users);
+    //   })
+    //   .catch(err => console.log(err.message));
 
-        return response.json();
-      })
-      .then(users => {
-        setMonsters(users);
-        setFilteredMonsters(users);
-      })
-      .catch(err => console.log(err.message));
+    const fetchUsers = async () => {
+      const users = await getData<Monster[]>(
+        'https://jsonplaceholder.typicode.com/users'
+      );
+
+      setMonsters(users);
+    };
+
+    fetchUsers();
   }, []);
 
-  const searchHandler = e => {
-    const searchStr = e.target.value.toLowerCase();
+  useEffect(() => {
+    const searchStr = search.toLowerCase();
+
     const newFilteredMonster = monsters.filter(monster =>
       monster.name.toLowerCase().includes(searchStr)
     );
 
-    setSearch(e.target.value);
     setFilteredMonsters(newFilteredMonster);
+  }, [monsters, search]);
+
+  const searchHandler = (event: ChangeEvent<HTMLInputElement>): void => {
+    setSearch(event.target.value);
   };
 
   return (
