@@ -34,6 +34,7 @@ export const GoogleSignButton = styled(BaseButton)`
   color: white;
 
   &:hover {
+    color: #eee;
     background-color: #1956b9;
     border: none;
   }
