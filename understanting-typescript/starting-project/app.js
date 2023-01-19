@@ -1,1 +1,5 @@
-console.log('Test message!');
+var person = {
+    name: 'Anton',
+    age: 32
+};
+console.log(person);
