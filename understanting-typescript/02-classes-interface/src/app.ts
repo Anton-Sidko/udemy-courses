@@ -1,16 +1,19 @@
-class Department {
+abstract class Department {
+  static fiscalYear = 2023;
   // private readonly id: string;
   // private name: string;
   protected employees: string[] = [];
 
-  constructor(private readonly id: string, public name: string) {
+  constructor(protected readonly id: string, public name: string) {
     // this.id = id;
     // this.name = n;
   }
 
-  describe() {
-    console.log(`Department: (${this.id})-${this.name}`);
+  static createEmployee(name: string) {
+    return { name: name };
   }
+
+  abstract describe(): void;
 
   addEmployee(employee: string) {
     // this.id ='ch';
@@ -29,10 +32,15 @@ class ITDepartment extends Department {
     super(id, 'IT');
     // this.admins = admins;
   }
+
+  describe(): void {
+    console.log(`IT Department: (${this.id})-${this.name}`);
+  }
 }
 
 class AccountingDepartment extends Department {
   private lastReport: string;
+  private static instance: AccountingDepartment;
 
   get getLastReport() {
     if (this.lastReport) return this.lastReport;
@@ -46,9 +54,19 @@ class AccountingDepartment extends Department {
     this.addReport(value);
   }
 
-  constructor(id: string, private reports: string[]) {
+  private constructor(id: string, private reports: string[]) {
     super(id, 'Accounting');
     this.lastReport = reports[0];
+  }
+
+  // INFO Singleton pattern
+  static getInstance() {
+    if (AccountingDepartment.instance) {
+      return this.instance;
+    }
+
+    this.instance = new AccountingDepartment('d2', []);
+    return this.instance;
   }
 
   addEmployee(name: string) {
@@ -65,9 +83,15 @@ class AccountingDepartment extends Department {
   printReports() {
     console.log(this.reports);
   }
+
+  describe(): void {
+    console.log(`Accounting Department: (${this.id})-${this.name}`);
+  }
 }
 
-const accounting = new AccountingDepartment('dep1', []);
+// INFO Singleton pattern
+const accounting = AccountingDepartment.getInstance();
+// const accounting2 = new AccountingDepartment('dep3', []);
 
 // accounting.employees[10] = 'Julia';
 
@@ -88,6 +112,10 @@ accounting.printReports();
 
 console.log(accounting.getLastReport);
 
+const employee1 = Department.createEmployee('Kitty');
+console.log(employee1, Department.fiscalYear);
+
 const it = new ITDepartment('dep2', ['Anton', 'Cocos']);
+it.describe();
 
 console.log(it);
