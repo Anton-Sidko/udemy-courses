@@ -23,7 +23,7 @@ user1 = {
 
 user1.greet('Hi');
 
-class Person implements Greet, Aged {
+class PersonI implements Greet, Aged {
   // name:string;
 
   constructor(public name: string, public age: number) {}
