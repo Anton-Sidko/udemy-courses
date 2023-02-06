@@ -1,12 +1,9 @@
-// INFO namespaces
+// INFO ES modules
+import { ProjectInput } from './components/project-input.js';
+import { ProjectList } from './components/project-list.js';
 
-/// <reference path="components/project-list.ts" />
-/// <reference path="components/project-input.ts" />
+// Initiate classes instance
 
-namespace App {
-  // Initiate classes instance
-
-  new ProjectInput();
-  new ProjectList('active');
-  new ProjectList('finished');
-}
+new ProjectInput();
+new ProjectList('active');
+new ProjectList('finished');
