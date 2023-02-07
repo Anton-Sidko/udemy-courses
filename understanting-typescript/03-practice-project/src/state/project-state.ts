@@ -1,4 +1,4 @@
-import { Project, ProjectStatus } from '../models/project.js';
+import { Project, ProjectStatus } from '../models/project';
 
 // INFO Project State Management - singleton
 type Listener<T> = (items: T[]) => void;

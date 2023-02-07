@@ -1,8 +1,8 @@
 // ES module
-import { Draggable } from '../models/drag-drop.js';
-import { Component } from './base-component.js';
-import { Project } from '../models/project.js';
-import { Autobind } from '../decorators/autobind.js';
+import { Draggable } from '../models/drag-drop';
+import { Component } from './base-component';
+import { Project } from '../models/project';
+import { Autobind } from '../decorators/autobind';
 
 // ProjectItem class
 export class ProjectItem
