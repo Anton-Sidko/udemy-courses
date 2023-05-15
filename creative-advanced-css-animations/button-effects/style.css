@@ -1,0 +1,493 @@
+body {
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+	gap: 3rem;
+	/* justify-content: center; */
+	align-items: center;
+	padding-top: 5rem;
+	padding-bottom: 5rem;
+}
+
+a {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	text-decoration: none;
+	color: #262626;
+	font-family: sans-serif;
+	font-size: 2rem;
+	line-height: 1;
+	border: 5px solid #262626;
+	padding: 1em 1.5em;
+	position: relative;
+	overflow: hidden;
+	text-align: center;
+	transition: transform 0.7s;
+}
+
+a::before,
+a::after {
+	content: '';
+	position: absolute;
+	left: 0;
+	top: 0;
+	height: 100%;
+	width: 100%;
+	z-index: -1;
+}
+
+/* Rotating */
+#rotating-btn-effect:before {
+	background-color: #fff200;
+	transform-origin: bottom left;
+	transform: rotate(-90deg);
+	transition: transform 0.7s;
+}
+
+#rotating-btn-effect:hover:before {
+	transform: rotate(0deg);
+}
+
+/* Swipe */
+#swipe-btn-effect {
+	color: #351435;
+	border: 3px solid #351435;
+	transition: color 0.7s;
+}
+
+#swipe-btn-effect:hover {
+	color: #ffffff;
+}
+
+#swipe-btn-effect:before {
+	background-color: #351435;
+	transform: translateX(-100%);
+	transition: transform 0.7s;
+}
+
+#swipe-btn-effect:hover:before {
+	transform: translateX(0);
+}
+
+/* Cross */
+#cross-btn-effect {
+	color: #262626;
+	border: 5px solid #262626;
+	transition: all 0.7s;
+}
+
+#cross-btn-effect:hover {
+	color: #ffffff;
+}
+
+#cross-btn-effect:before {
+	background-color: #262626;
+	transition: all 0.7s;
+	transform: rotateX(90deg);
+}
+
+#cross-btn-effect:after {
+	background-color: #262626;
+	transition: all 0.7s;
+	transform: rotateY(90deg);
+}
+
+#cross-btn-effect:hover:before {
+	transform: rotateX(0);
+}
+
+#cross-btn-effect:hover:after {
+	transform: rotateY(0);
+}
+
+/* Bolder */
+#bolder-btn-effect {
+	color: #e1332d;
+	border: 3px solid #e1332d;
+	text-transform: uppercase;
+	letter-spacing: -2px;
+	transition: all 0.7s;
+}
+
+#bolder-btn-effect:hover {
+	font-weight: 900;
+	letter-spacing: 10px;
+	border: 7px solid #e1332d;
+}
+
+/* Swipe with text change */
+#swipe-btn-effect-v2 {
+	color: #351435;
+	border: 3px solid #351435;
+	transition: color 0.7s;
+}
+
+#swipe-btn-effect-v2:before {
+	content: 'Yeah';
+	z-index: 1;
+	color: #ffffff;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: #351435;
+	transform: translateY(-100%);
+	transition: transform 0.7s;
+}
+
+#swipe-btn-effect-v2:hover:before {
+	transform: translateY(0);
+}
+
+/* Glowing */
+#glowing-btn-effect {
+	background-color: #262626;
+	color: #ffffff;
+	border: 5px solid #262626;
+	transition: all 0.7s;
+}
+
+#glowing-btn-effect:hover {
+	background-color: #f44336;
+}
+
+#glowing-btn-effect:before {
+	background-color: #ffffff;
+	height: 30px;
+	z-index: 1;
+	transition: all 0.7s;
+	transform: translateX(-100%) rotate(45deg);
+}
+
+#glowing-btn-effect:hover:before {
+	transform: translateX(100%) rotate(45deg);
+}
+
+/* Two layers */
+#two-layers-btn-effect {
+	color: transparent;
+	background-color: #262626;
+	border: 3px solid #262626;
+	transition: all 0.7s;
+}
+
+#two-layers-btn-effect:before,
+#two-layers-btn-effect:after {
+	content: 'Two layers Effect';
+	background-color: #fffa65;
+	color: #262626;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	z-index: 1;
+	transition: all 0.7s;
+}
+
+#two-layers-btn-effect:after {
+	transform: translate(-100%, 100%);
+}
+
+#two-layers-btn-effect:hover:before {
+	transform: translate(100%, -100%);
+}
+
+#two-layers-btn-effect:hover:after {
+	transform: translate(0%, 0%);
+}
+
+/* Text Scaling */
+#text-scaling-btn-effect {
+	color: #262626;
+	border: 3px solid #262626;
+	transition: all 0.5s;
+}
+
+#text-scaling-btn-effect:before {
+	content: 'Text Scaling Effect';
+	background-color: #262626;
+	color: #ffffff;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	z-index: 1;
+	transform: scale(5);
+	opacity: 0;
+	transition: all 0.5s;
+}
+
+#text-scaling-btn-effect:hover:before {
+	transform: scale(1);
+	opacity: 1;
+}
+
+/* Circular Swapping */
+#circular-swapping-btn-effect {
+	color: tomato;
+	border: 2px solid tomato;
+	transition: all 0.5s;
+}
+
+#circular-swapping-btn-effect:hover {
+	color: #ffffff;
+}
+
+#circular-swapping-btn-effect:before {
+	background-color: tomato;
+	top: auto;
+	bottom: 0;
+	height: 0%;
+	border-radius: 50% 50% 0 0;
+	transition: all 0.5s;
+}
+
+#circular-swapping-btn-effect:hover:before {
+	height: 200%;
+}
+
+/* Rotating Layers */
+#rotating-layers-btn-effect {
+	color: #ffffff;
+	border: none;
+	background-color: #f1c40f;
+	letter-spacing: 2px;
+	transition: all 0.5s;
+	overflow: visible;
+}
+
+#rotating-layers-btn-effect:before,
+#rotating-layers-btn-effect:after {
+	content: 'Rotating Layers Effect';
+	background-color: #2ce771;
+	z-index: 1;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transform: rotateX(270deg);
+	transform-origin: top;
+	transition: all 0.7s;
+}
+
+#rotating-layers-btn-effect:after {
+	background-color: tomato;
+	transform-origin: bottom;
+	transition-delay: 0.35s;
+}
+
+#rotating-layers-btn-effect:hover:before {
+	transform: rotateX(0);
+}
+
+#rotating-layers-btn-effect:hover:after {
+	transform: rotateX(0);
+}
+
+/* Swapping left to right */
+#swipe-left-right-btn-effect {
+	letter-spacing: 2px;
+	color: transparent;
+	border: 3px solid #f1c40f;
+}
+
+#swipe-left-right-btn-effect:before,
+#swipe-left-right-btn-effect:after {
+	content: 'Swapping left to right Effect';
+	color: #f1c40f;
+	background-color: #363636;
+	z-index: 1;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transition: all 0.7s;
+}
+
+#swipe-left-right-btn-effect:after {
+	left: -100%;
+	transform: scale(0) rotateY(0deg);
+	opacity: 0;
+}
+
+#swipe-left-right-btn-effect:hover:before {
+	left: 100%;
+	transform: scale(0) rotateY(360deg);
+	opacity: 0;
+}
+
+#swipe-left-right-btn-effect:hover:after {
+	left: 0;
+	transform: scale(1) rotateY(360deg);
+	opacity: 1;
+}
+
+/* Three dots */
+#dots-btn-effect {
+	color: #f1c40f;
+	background-color: transparent;
+	border: none;
+	transition: all 0.5s;
+}
+
+#dots-btn-effect:before,
+#dots-btn-effect:after {
+	content: '';
+	top: 50%;
+	width: 20px;
+	height: 20px;
+	background-color: #f1c40f;
+	border-radius: 50%;
+	transform: translateY(-50%);
+	box-shadow: -100px 0 0 #f1c40f;
+	z-index: -1;
+	opacity: 0;
+	transition: all 0.5s;
+}
+
+#dots-btn-effect:after {
+	left: auto;
+	right: 0;
+	box-shadow: 100px 0 0 #f1c40f;
+}
+
+
+#dots-btn-effect:hover:before {
+	left: 50%;
+	transform: translate(-50%, -50%);
+	box-shadow: 30px 0 0 #f1c40f;
+	opacity: 1;
+}
+
+#dots-btn-effect:hover:after {
+	right: 50%;
+	transform: translate(50%, -50%);
+	box-shadow: -30px 0 0 #f1c40f;
+	opacity: 1;
+}
+
+#dots-btn-effect span {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: #f1c40f;
+	border-radius: 8px;
+	transform: scale(0);
+	transition: all 0.5s;
+	z-index: -1;
+}
+
+#dots-btn-effect:hover {
+	color: #262626;
+	transition-delay: 0.6s;
+}
+
+#dots-btn-effect:hover span {
+	transform: scale(1);
+	transition-delay: 0.6s;
+}
+
+/* Two colors */
+#two-colors-btn-effect {
+	color: #ffffff;
+	background-color: transparent;
+	border: none;
+	font-weight: 700;
+	letter-spacing: 2px;
+	overflow: visible;
+	transition: all 0.2s;
+}
+
+#two-colors-btn-effect:hover {
+	color: #272727;
+}
+
+#two-colors-btn-effect:before,
+#two-colors-btn-effect:after {
+	content: '';
+	top: -5px;
+	left: -5px;
+	background-color: #20caff;
+	mix-blend-mode: multiply;
+	transform-origin: top;
+	transition: all 0.5s;
+}
+
+#two-colors-btn-effect:after {
+	top: 5px;
+	left: 5px;
+	background-color: #ff7675;
+	transform-origin: bottom;
+}
+
+#two-colors-btn-effect:hover:before {
+	/* top: -6px; */
+	left: 0;
+	transform: perspective(800px) rotateX(75deg);
+}
+
+#two-colors-btn-effect:hover:after {
+	/* top: 6px; */
+	left: 0;
+	transform: perspective(800px) rotateX(-75deg);
+}
+
+/* Splitted */
+#splitted-btn-effect {
+	color: #f6b93b;
+	border: 3px solid #f6b93b;
+	transition: all 0.5s;
+}
+
+#splitted-btn-effect:hover {
+	color: #262626;
+}
+
+#splitted-btn-effect:before,
+#splitted-btn-effect:after,
+#splitted-btn-effect span::before,
+#splitted-btn-effect span::after {
+	content: '';
+	position: absolute;
+	left: 0%;
+	top: 100%;
+	width: 25%;
+	height: 100%;
+	background-color: #f6b93b;
+	z-index: -1;
+	transition: all 0.3s;
+}
+
+#splitted-btn-effect:after {
+	top: -100%;
+	left: 25%;
+	transition-delay: 0.1s;
+}
+
+#splitted-btn-effect span::before {
+	top: 100%;
+	left: auto;
+	right: 25%;
+	transition-delay: 0.2s;
+}
+
+#splitted-btn-effect span::after {
+	top: -100%;
+	left: auto;
+	right: 0;
+	transition-delay: 0.3s;
+}
+
+#splitted-btn-effect:hover:before {
+	top: 0;
+}
+
+#splitted-btn-effect:hover:after {
+	top: 0;
+}
+
+#splitted-btn-effect:hover span:before {
+	top: 0;
+}
+
+#splitted-btn-effect:hover span:after {
+	top: 0;
+}
