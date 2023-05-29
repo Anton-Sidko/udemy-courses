@@ -240,3 +240,51 @@ ul li a {
 	width: 100%;
 	transition-delay: 0s;
 }
+
+/* sixth */
+#sixth {
+	flex-direction: column;
+	gap: 20px;
+	justify-content: center;
+	background-color: #3d3d3d;
+	padding: 100px;
+}
+
+#sixth a {
+	padding: 0;
+	position: relative;
+	display: block;
+	color: transparent;
+	-webkit-text-stroke: 1px white;
+	font-size: 80px;
+	font-weight: 900;
+	text-decoration: none;
+}
+
+
+#sixth a:hover {
+	color: #FFFFFF;
+}
+
+#sixth a::before,
+#sixth a::after {
+	content: attr(data-text);
+	position: absolute;
+	top: 0;
+	left: 0;
+	transition: all .5s;
+}
+
+#sixth a:hover::before {
+	color: rgb(187, 0, 0);
+	z-index: 1;
+	-webkit-text-stroke: 1px black;
+	transform: translate(10px, -10px);
+}
+
+#sixth a:hover::after {
+	color: rgb(119, 239, 255);
+	z-index: 2;
+	-webkit-text-stroke: 1px black;
+	transform: translate(20px, -20px);
+}
