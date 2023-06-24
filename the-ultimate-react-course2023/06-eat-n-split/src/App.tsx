@@ -58,6 +58,7 @@ const App = function (): JSX.Element {
         <FormSplitBill
           friend={selectedFriend}
           onSplitBill={handleUpdateBalance}
+          key={selectedFriend.id}
         />
       )}
     </div>
