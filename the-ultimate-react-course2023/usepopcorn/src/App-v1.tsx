@@ -1,11 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 type MovieData = {
   imdbID: string;
   Title: string;
   Year: string;
   Poster: string;
-  Type?: string;
   imdbRating?: number;
   userRating?: number;
   runtime?: number;
@@ -61,87 +60,27 @@ const tempWatchedData: MovieData[] = [
 const average = (arr: number[]) =>
   arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
 
-const API_KEY = '7f28e518';
-
 const App = function (): JSX.Element {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [movies, setMovies] = useState<MovieData[]>([]);
-  const [watched, setWatched] = useState<MovieData[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState('');
-
-  useEffect(() => {
-    const fetchMovies = async (query: string) => {
-      try {
-        setIsLoading(true);
-        setError('');
-
-        const res = await fetch(
-          `http://www.omdbapi.com/?s=${query}&apikey=${API_KEY}`
-        );
-        const data = await res.json();
-
-        if (data.Response === 'False') {
-          throw new Error('Movie not found');
-        }
-        setMovies(data.Search);
-      } catch (err) {
-        setError((err as Error).message);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    if (searchQuery.length < 3) {
-      setMovies([]);
-      setError('');
-      return;
-    }
-
-    fetchMovies(searchQuery);
-  }, [searchQuery]);
-
-  const handleSearchInput = function (searchQuery: string) {
-    setSearchQuery(searchQuery);
-  };
+  const [movies, setMovies] = useState(tempMovieData);
+  const [watched, setWatched] = useState(tempWatchedData);
 
   return (
     <>
       <NavBar>
-        <SearchBar
-          query={searchQuery}
-          onSetQuery={handleSearchInput}
-        />
+        <SearchBar />
         <NumResults movies={movies} />
       </NavBar>
 
       <Main>
         <MovieBox>
-          {isLoading && <Loader />}
-          {error && <ErrorMessage message={error} />}
-
-          {!isLoading && !error && <MovieList movies={movies} />}
+          <MovieList movies={movies} />
         </MovieBox>
-
         <MovieBox>
           <WatchedSummary watchedList={watched} />
           <WatchedMovieList watchedList={watched} />
         </MovieBox>
       </Main>
     </>
-  );
-};
-
-const Loader = function (): JSX.Element {
-  return <p className="loader">Loading...</p>;
-};
-
-const ErrorMessage = function ({ message }: { message: string }): JSX.Element {
-  return (
-    <p className="error">
-      <span>⛔ </span>
-      {message}
-    </p>
   );
 };
 
@@ -167,22 +106,16 @@ const Logo = function (): JSX.Element {
   );
 };
 
-type SearchBarProps = {
-  query: string;
-  onSetQuery: (searchQuery: string) => void;
-};
+const SearchBar = function (): JSX.Element {
+  const [query, setQuery] = useState('');
 
-const SearchBar = function ({
-  query,
-  onSetQuery,
-}: SearchBarProps): JSX.Element {
   return (
     <input
       className="search"
       type="text"
       placeholder="Search movies..."
       value={query}
-      onChange={(e) => onSetQuery(e.target.value)}
+      onChange={(e) => setQuery(e.target.value)}
     />
   );
 };
