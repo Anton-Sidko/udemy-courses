@@ -31,6 +31,8 @@ export type MovieItemProps = {
 export type MovieDetailsProps = {
   selectedId: string;
   onCloseMovie: () => void;
+  onAddWatch: (movie: MovieData) => void;
+  watched: MovieData[];
 };
 
 export type MovieDetailsType = MovieData & {
@@ -48,8 +50,10 @@ export type WatchedSummaryProps = {
 
 export type WatchedMovieListProps = {
   watchedList: MovieData[];
+  onDeleteWatched: (id: string) => void;
 };
 
 export type WatchedMovieItemProps = {
   movie: MovieData;
+  onDeleteWatched: (id: string) => void;
 };
