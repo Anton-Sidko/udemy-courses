@@ -1,62 +1,70 @@
 import { useEffect, useState } from 'react';
 
-type MovieData = {
-  imdbID: string;
-  Title: string;
-  Year: string;
-  Poster: string;
-  Type?: string;
-  imdbRating?: number;
-  userRating?: number;
-  runtime?: number;
-};
+import {
+  MovieData,
+  MovieDetailsProps,
+  MovieDetailsType,
+  WatchedMovieItemProps,
+  WatchedMovieListProps,
+  WatchedSummaryProps,
+} from './types';
 
-const tempMovieData: MovieData[] = [
-  {
-    imdbID: 'tt1375666',
-    Title: 'Inception',
-    Year: '2010',
-    Poster:
-      'https://m.media-amazon.com/images/M/MV5BMjAxMzY3NjcxNF5BMl5BanBnXkFtZTcwNTI5OTM0Mw@@._V1_SX300.jpg',
-  },
-  {
-    imdbID: 'tt0133093',
-    Title: 'The Matrix',
-    Year: '1999',
-    Poster:
-      'https://m.media-amazon.com/images/M/MV5BNzQzOTk3OTAtNDQ0Zi00ZTVkLWI0MTEtMDllZjNkYzNjNTc4L2ltYWdlXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_SX300.jpg',
-  },
-  {
-    imdbID: 'tt6751668',
-    Title: 'Parasite',
-    Year: '2019',
-    Poster:
-      'https://m.media-amazon.com/images/M/MV5BYWZjMjk3ZTItODQ2ZC00NTY5LWE0ZDYtZTI3MjcwN2Q5NTVkXkEyXkFqcGdeQXVyODk4OTc3MTY@._V1_SX300.jpg',
-  },
-];
+import Main from './layout/Main';
+import StarRating from './components/StarRating';
+import Loader from './components/Loader';
+import ErrorMessage from './components/ErrorMessage';
+import NavBar from './layout/NavBar';
+import SearchBar from './components/SearchBar';
+import NumResults from './components/NumResults';
+import MovieBox from './components/MovieBox';
+import MovieList from './components/MovieList';
 
-const tempWatchedData: MovieData[] = [
-  {
-    imdbID: 'tt1375666',
-    Title: 'Inception',
-    Year: '2010',
-    Poster:
-      'https://m.media-amazon.com/images/M/MV5BMjAxMzY3NjcxNF5BMl5BanBnXkFtZTcwNTI5OTM0Mw@@._V1_SX300.jpg',
-    runtime: 148,
-    imdbRating: 8.8,
-    userRating: 10,
-  },
-  {
-    imdbID: 'tt0088763',
-    Title: 'Back to the Future',
-    Year: '1985',
-    Poster:
-      'https://m.media-amazon.com/images/M/MV5BZmU0M2Y1OGUtZjIxNi00ZjBkLTg1MjgtOWIyNThiZWIwYjRiXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SX300.jpg',
-    runtime: 116,
-    imdbRating: 8.5,
-    userRating: 9,
-  },
-];
+// const tempMovieData: MovieData[] = [
+//   {
+//     imdbID: 'tt1375666',
+//     Title: 'Inception',
+//     Year: '2010',
+//     Poster:
+//       'https://m.media-amazon.com/images/M/MV5BMjAxMzY3NjcxNF5BMl5BanBnXkFtZTcwNTI5OTM0Mw@@._V1_SX300.jpg',
+//   },
+//   {
+//     imdbID: 'tt0133093',
+//     Title: 'The Matrix',
+//     Year: '1999',
+//     Poster:
+//       'https://m.media-amazon.com/images/M/MV5BNzQzOTk3OTAtNDQ0Zi00ZTVkLWI0MTEtMDllZjNkYzNjNTc4L2ltYWdlXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_SX300.jpg',
+//   },
+//   {
+//     imdbID: 'tt6751668',
+//     Title: 'Parasite',
+//     Year: '2019',
+//     Poster:
+//       'https://m.media-amazon.com/images/M/MV5BYWZjMjk3ZTItODQ2ZC00NTY5LWE0ZDYtZTI3MjcwN2Q5NTVkXkEyXkFqcGdeQXVyODk4OTc3MTY@._V1_SX300.jpg',
+//   },
+// ];
+
+// const tempWatchedData: MovieData[] = [
+//   {
+//     imdbID: 'tt1375666',
+//     Title: 'Inception',
+//     Year: '2010',
+//     Poster:
+//       'https://m.media-amazon.com/images/M/MV5BMjAxMzY3NjcxNF5BMl5BanBnXkFtZTcwNTI5OTM0Mw@@._V1_SX300.jpg',
+//     runtime: 148,
+//     imdbRating: 8.8,
+//     userRating: 10,
+//   },
+//   {
+//     imdbID: 'tt0088763',
+//     Title: 'Back to the Future',
+//     Year: '1985',
+//     Poster:
+//       'https://m.media-amazon.com/images/M/MV5BZmU0M2Y1OGUtZjIxNi00ZjBkLTg1MjgtOWIyNThiZWIwYjRiXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SX300.jpg',
+//     runtime: 116,
+//     imdbRating: 8.5,
+//     userRating: 9,
+//   },
+// ];
 
 const average = (arr: number[]) =>
   arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
@@ -64,11 +72,12 @@ const average = (arr: number[]) =>
 const API_KEY = '7f28e518';
 
 const App = function (): JSX.Element {
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState('big bang');
   const [movies, setMovies] = useState<MovieData[]>([]);
   const [watched, setWatched] = useState<MovieData[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+  const [selectedId, setSelectedId] = useState<null | string>(null);
 
   useEffect(() => {
     const fetchMovies = async (query: string) => {
@@ -105,6 +114,14 @@ const App = function (): JSX.Element {
     setSearchQuery(searchQuery);
   };
 
+  const handleSelectMovie = function (id: string) {
+    setSelectedId((selectedId) => (id === selectedId ? null : id));
+  };
+
+  const handleCloseMovie = function () {
+    setSelectedId(null);
+  };
+
   return (
     <>
       <NavBar>
@@ -120,168 +137,120 @@ const App = function (): JSX.Element {
           {isLoading && <Loader />}
           {error && <ErrorMessage message={error} />}
 
-          {!isLoading && !error && <MovieList movies={movies} />}
+          {!isLoading && !error && (
+            <MovieList
+              movies={movies}
+              onSelectMovie={handleSelectMovie}
+            />
+          )}
         </MovieBox>
 
         <MovieBox>
-          <WatchedSummary watchedList={watched} />
-          <WatchedMovieList watchedList={watched} />
+          {selectedId ? (
+            <MovieDetails
+              selectedId={selectedId}
+              onCloseMovie={handleCloseMovie}
+            />
+          ) : (
+            <>
+              <WatchedSummary watchedList={watched} />
+              <WatchedMovieList watchedList={watched} />
+            </>
+          )}
         </MovieBox>
       </Main>
     </>
   );
 };
 
-const Loader = function (): JSX.Element {
-  return <p className="loader">Loading...</p>;
-};
+const MovieDetails = function ({
+  selectedId,
+  onCloseMovie,
+}: MovieDetailsProps): React.JSX.Element {
+  const [movie, setMovie] = useState<MovieDetailsType | {}>({});
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
 
-const ErrorMessage = function ({ message }: { message: string }): JSX.Element {
-  return (
-    <p className="error">
-      <span>⛔ </span>
-      {message}
-    </p>
-  );
-};
+  const {
+    Title: title,
+    Poster: poster,
+    Runtime: runtime,
+    imdbRating,
+    Plot: plot,
+    Released: released,
+    Actors: actors,
+    Director: director,
+    Genre: genre,
+  } = movie as MovieDetailsType;
 
-const NavBar = function ({
-  children,
-}: {
-  children: React.ReactNode;
-}): JSX.Element {
-  return (
-    <nav className="nav-bar">
-      <Logo />
-      {children}
-    </nav>
-  );
-};
+  useEffect(() => {
+    const getMovieDetails = async function (id: string) {
+      try {
+        setIsLoading(true);
+        setError('');
 
-const Logo = function (): JSX.Element {
-  return (
-    <div className="logo">
-      <span role="img">🍿</span>
-      <h1>usePopcorn</h1>
-    </div>
-  );
-};
+        const res = await fetch(
+          `http://www.omdbapi.com/?i=${id}&apikey=${API_KEY}`
+        );
 
-type SearchBarProps = {
-  query: string;
-  onSetQuery: (searchQuery: string) => void;
-};
-
-const SearchBar = function ({
-  query,
-  onSetQuery,
-}: SearchBarProps): JSX.Element {
-  return (
-    <input
-      className="search"
-      type="text"
-      placeholder="Search movies..."
-      value={query}
-      onChange={(e) => onSetQuery(e.target.value)}
-    />
-  );
-};
-
-const NumResults = function ({ movies }: { movies: MovieData[] }): JSX.Element {
-  return (
-    <p className="num-results">
-      Found <strong>{movies.length}</strong> results
-    </p>
-  );
-};
-
-const Main = function ({
-  children,
-}: {
-  children: React.ReactNode;
-}): JSX.Element {
-  return <main className="main">{children}</main>;
-};
-
-const MovieBox = function ({
-  children,
-}: {
-  children: React.ReactNode;
-}): JSX.Element {
-  const [isOpen, setIsOpen] = useState(true);
-
-  const handleToggleOpen = function () {
-    setIsOpen((isOpen) => !isOpen);
-  };
+        const data = await res.json();
+        setMovie(data);
+      } catch (err) {
+        setError((err as Error).message);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    getMovieDetails(selectedId);
+  }, [selectedId]);
 
   return (
-    <div className="box">
-      <ToggleButton
-        isOpen={isOpen}
-        onSetIsOpen={handleToggleOpen}
-      />
+    <>
+      {isLoading && <Loader />}
+      {error && <ErrorMessage message={error} />}{' '}
+      {!isLoading && !error && (
+        <div className="details">
+          <header>
+            <button
+              className="btn-back"
+              onClick={onCloseMovie}
+            >
+              &larr;
+            </button>
+            <img
+              src={poster}
+              alt={`Poster of ${title} movie`}
+            />
+            <div className="details-overview">
+              <h2>{title}</h2>
+              <p>
+                {released} &bull; {runtime}
+              </p>
+              <p>{genre}</p>
+              <p>
+                <span>⭐</span>
+                {imdbRating} IMDb rating
+              </p>
+            </div>
+          </header>
 
-      {isOpen && children}
-    </div>
+          <section>
+            <div className="rating">
+              <StarRating
+                maxRating={10}
+                size={24}
+              />
+            </div>
+            <p>
+              <em>{plot}</em>
+            </p>
+            <p>Staring: {actors}</p>
+            <p>Directed by {director}</p>
+          </section>
+        </div>
+      )}
+    </>
   );
-};
-
-type ToggleButtonProps = {
-  isOpen: boolean;
-  onSetIsOpen: () => void;
-};
-
-const ToggleButton = function ({
-  isOpen,
-  onSetIsOpen,
-}: ToggleButtonProps): JSX.Element {
-  return (
-    <button
-      className="btn-toggle"
-      onClick={onSetIsOpen}
-    >
-      {isOpen ? '–' : '+'}
-    </button>
-  );
-};
-
-const MovieList = function ({ movies }: { movies: MovieData[] }): JSX.Element {
-  return (
-    <ul className="list">
-      {movies?.map((movie) => (
-        <MovieItem
-          key={movie.imdbID}
-          movie={movie}
-        />
-      ))}
-    </ul>
-  );
-};
-
-type MovieItemProps = {
-  movie: MovieData;
-};
-
-const MovieItem = function ({ movie }: MovieItemProps): JSX.Element {
-  return (
-    <li>
-      <img
-        src={movie.Poster}
-        alt={`${movie.Title} poster`}
-      />
-      <h3>{movie.Title}</h3>
-      <div>
-        <p>
-          <span>📅</span>
-          <span>{movie.Year}</span>
-        </p>
-      </div>
-    </li>
-  );
-};
-
-type WatchedSummaryProps = {
-  watchedList: MovieData[];
 };
 
 const WatchedSummary = function ({
@@ -320,10 +289,6 @@ const WatchedSummary = function ({
   );
 };
 
-type WatchedMovieListProps = {
-  watchedList: MovieData[];
-};
-
 const WatchedMovieList = function ({
   watchedList,
 }: WatchedMovieListProps): JSX.Element {
@@ -337,10 +302,6 @@ const WatchedMovieList = function ({
       ))}
     </ul>
   );
-};
-
-type WatchedMovieItemProps = {
-  movie: MovieData;
 };
 
 const WatchedMovieItem = function ({ movie }: WatchedMovieItemProps) {
