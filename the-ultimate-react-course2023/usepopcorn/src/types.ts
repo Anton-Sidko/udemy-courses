@@ -6,6 +6,7 @@ export type MovieData = {
   imdbRating?: number;
   userRating?: number;
   runtime?: number;
+  countRatingDecisions?: number;
 };
 
 export type SearchBarProps = {

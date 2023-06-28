@@ -22,17 +22,10 @@ export const API_KEY = '7f28e518';
 const App = function (): JSX.Element {
   const [searchQuery, setSearchQuery] = useState('');
   const [movies, setMovies] = useState<MovieData[]>([]);
+  const [watched, setWatched] = useState<MovieData[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const [selectedId, setSelectedId] = useState<null | string>(null);
-
-  // const [watched, setWatched] = useState<MovieData[]>([]);
-  const [watched, setWatched] = useState<MovieData[]>(function () {
-    const storedValue = localStorage.getItem('watched');
-
-    if (storedValue) return JSON.parse(storedValue);
-    return [];
-  });
 
   useEffect(() => {
     const controller = new AbortController();
@@ -76,10 +69,6 @@ const App = function (): JSX.Element {
     };
   }, [searchQuery]);
 
-  useEffect(() => {
-    localStorage.setItem('watched', JSON.stringify(watched));
-  }, [watched]);
-
   const handleSearchInput = function (searchQuery: string) {
     setSearchQuery(searchQuery);
   };
@@ -94,11 +83,6 @@ const App = function (): JSX.Element {
 
   const handleAddWatch = function (newWatchedMovie: MovieData) {
     setWatched((watched) => [...watched, newWatchedMovie]);
-
-    // localStorage.setItem(
-    //   'watched',
-    //   JSON.stringify([...watched, newWatchedMovie])
-    // );
   };
 
   const handleDeleteWatched = function (id: string) {
