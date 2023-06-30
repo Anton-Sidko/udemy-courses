@@ -3,7 +3,8 @@ import { MovieData, MovieDetailsProps, MovieDetailsType } from '../types';
 import StarRating from './StarRating';
 import Loader from './Loader';
 import ErrorMessage from './ErrorMessage';
-import { API_KEY } from '../App';
+import { API_KEY } from '../const';
+import { useKey } from '../hooks/useKey';
 
 const MovieDetails = function ({
   selectedId,
@@ -77,24 +78,12 @@ const MovieDetails = function ({
   }, [title]);
 
   useEffect(() => {
-    const handleKeydown = function (e: KeyboardEvent) {
-      if (e.code === 'Escape') {
-        onCloseMovie();
-      }
-    };
-
-    document.addEventListener('keydown', handleKeydown);
-
-    return function () {
-      document.removeEventListener('keydown', handleKeydown);
-    };
-  }, [onCloseMovie]);
-
-  useEffect(() => {
     if (userRating) {
       countRef.current += 1;
     }
   }, [userRating]);
+
+  useKey('Escape', onCloseMovie);
 
   const handleAdd = function () {
     const newWatchedMovie: MovieData = {

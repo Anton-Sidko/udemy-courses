@@ -1,6 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { MovieData } from './types';
+import { useMovies } from './hooks/useMovies';
+import { useLocalStorageState } from './hooks/useLocalStorageState';
 
 import Main from './layout/Main';
 import Loader from './components/Loader';
@@ -17,68 +19,12 @@ import MovieDetails from './components/MovieDetails';
 export const average = (arr: number[]) =>
   arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0).toFixed(2);
 
-export const API_KEY = '7f28e518';
-
 const App = function (): JSX.Element {
   const [searchQuery, setSearchQuery] = useState('');
-  const [movies, setMovies] = useState<MovieData[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState('');
   const [selectedId, setSelectedId] = useState<null | string>(null);
 
-  // const [watched, setWatched] = useState<MovieData[]>([]);
-  const [watched, setWatched] = useState<MovieData[]>(function () {
-    const storedValue = localStorage.getItem('watched');
-
-    if (storedValue) return JSON.parse(storedValue);
-    return [];
-  });
-
-  useEffect(() => {
-    const controller = new AbortController();
-
-    const fetchMovies = async (query: string) => {
-      try {
-        setIsLoading(true);
-        setError('');
-
-        const res = await fetch(
-          `http://www.omdbapi.com/?s=${query}&apikey=${API_KEY}`,
-          { signal: controller.signal }
-        );
-        const data = await res.json();
-
-        if (data.Response === 'False') {
-          throw new Error('Movie not found');
-        }
-        setMovies(data.Search);
-        setError('');
-      } catch (err) {
-        if ((err as Error).name !== 'AbortError') {
-          setError((err as Error).message);
-        }
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    if (searchQuery.length < 3) {
-      setMovies([]);
-      setError('');
-      return;
-    }
-
-    handleCloseMovie();
-    fetchMovies(searchQuery);
-
-    return function () {
-      controller.abort();
-    };
-  }, [searchQuery]);
-
-  useEffect(() => {
-    localStorage.setItem('watched', JSON.stringify(watched));
-  }, [watched]);
+  const [watched, setWatched] = useLocalStorageState([], 'watched');
+  const { movies, isLoading, error } = useMovies(searchQuery);
 
   const handleSearchInput = function (searchQuery: string) {
     setSearchQuery(searchQuery);
@@ -94,11 +40,6 @@ const App = function (): JSX.Element {
 
   const handleAddWatch = function (newWatchedMovie: MovieData) {
     setWatched((watched) => [...watched, newWatchedMovie]);
-
-    // localStorage.setItem(
-    //   'watched',
-    //   JSON.stringify([...watched, newWatchedMovie])
-    // );
   };
 
   const handleDeleteWatched = function (id: string) {
