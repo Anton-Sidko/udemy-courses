@@ -1,4 +1,4 @@
-function Error(): React.JSX.Element {
+function ErrorMessage(): React.JSX.Element {
   return (
     <p className="error">
       <span>💥</span> There was an error fetching questions.
@@ -6,5 +6,5 @@ function Error(): React.JSX.Element {
   );
 }
 
-export default Error;
+export default ErrorMessage;
 
