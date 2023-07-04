@@ -1,6 +1,7 @@
 import { useEffect, useReducer } from 'react';
 
-import { Action, QuizState, initialState } from '../types';
+import { initialState } from '../types';
+import { reducer } from '../reducer';
 
 import Header from './Header';
 import Main from './Main';
@@ -8,42 +9,19 @@ import Loader from './Loader';
 import ErrorMessage from './Error';
 import StartScreen from './StartScreen';
 import Question from './Question';
-
-const reducer = function (state: QuizState, action: Action): QuizState {
-  switch (action.type) {
-    case 'dataReceived':
-      return {
-        ...state,
-        questions: action.payload,
-        status: 'ready',
-      };
-    case 'dataFailed':
-      return { ...state, status: 'error' };
-    case 'start':
-      return { ...state, status: 'active' };
-    case 'newAnswer':
-      const question = state.questions[state.curIndex];
-
-      return {
-        ...state,
-        answer: action.payload,
-        points:
-          action.payload === question.correctOption
-            ? state.points + question.points
-            : state.points,
-      };
-    default:
-      throw new Error('Unknown action');
-  }
-};
+import NextButton from './NextButton';
+import Progress from './Progress';
+import EndScreen from './EndScreen';
 
 const App = function (): React.JSX.Element {
-  const [{ questions, status, curIndex, answer }, dispatch] = useReducer(
-    reducer,
-    initialState
-  );
+  const [{ questions, status, curIndex, answer, points, highscore }, dispatch] =
+    useReducer(reducer, initialState);
 
   const amountQuestions = questions.length;
+  const maxPossiblePoints = questions.reduce(
+    (acc, question) => acc + question.points,
+    0
+  );
 
   useEffect(() => {
     fetch('http://localhost:9000/questions')
@@ -65,10 +43,33 @@ const App = function (): React.JSX.Element {
           />
         )}
         {status === 'active' && (
-          <Question
-            questionObj={questions[curIndex]}
+          <>
+            <Progress
+              curIndex={curIndex}
+              amountQuestions={amountQuestions}
+              points={points}
+              maxPossiblePoints={maxPossiblePoints}
+              answer={answer}
+            />
+            <Question
+              questionObj={questions[curIndex]}
+              dispatch={dispatch}
+              answer={answer}
+            />
+            <NextButton
+              dispatch={dispatch}
+              curIndex={curIndex}
+              amountQuestions={amountQuestions}
+              answer={answer}
+            />
+          </>
+        )}
+        {status === 'finish' && (
+          <EndScreen
             dispatch={dispatch}
-            answer={answer}
+            points={points}
+            maxPossiblePoints={maxPossiblePoints}
+            highscore={highscore}
           />
         )}
       </Main>
