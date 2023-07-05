@@ -1,6 +1,5 @@
 import { useEffect, useReducer } from 'react';
 
-import { initialState } from '../types';
 import { reducer } from '../reducer';
 
 import Header from './Header';
@@ -9,13 +8,26 @@ import Loader from './Loader';
 import ErrorMessage from './Error';
 import StartScreen from './StartScreen';
 import Question from './Question';
-import NextButton from './NextButton';
 import Progress from './Progress';
 import EndScreen from './EndScreen';
+import Footer from './Footer';
+import Timer from './Timer';
+import NextButton from './NextButton';
+import { initialState } from '../data/const';
 
 const App = function (): React.JSX.Element {
-  const [{ questions, status, curIndex, answer, points, highscore }, dispatch] =
-    useReducer(reducer, initialState);
+  const [
+    {
+      questions,
+      status,
+      curIndex,
+      answer,
+      points,
+      highscore,
+      secondsRemaining,
+    },
+    dispatch,
+  ] = useReducer(reducer, initialState);
 
   const amountQuestions = questions.length;
   const maxPossiblePoints = questions.reduce(
@@ -35,13 +47,16 @@ const App = function (): React.JSX.Element {
       <Header />
       <Main>
         {status === 'loading' && <Loader />}
+
         {status === 'error' && <ErrorMessage />}
+
         {status === 'ready' && (
           <StartScreen
             amountQuestions={amountQuestions}
             dispatch={dispatch}
           />
         )}
+
         {status === 'active' && (
           <>
             <Progress
@@ -56,14 +71,21 @@ const App = function (): React.JSX.Element {
               dispatch={dispatch}
               answer={answer}
             />
-            <NextButton
-              dispatch={dispatch}
-              curIndex={curIndex}
-              amountQuestions={amountQuestions}
-              answer={answer}
-            />
+            <Footer>
+              <Timer
+                dispatch={dispatch}
+                secondsRemaining={secondsRemaining}
+              />
+              <NextButton
+                dispatch={dispatch}
+                curIndex={curIndex}
+                amountQuestions={amountQuestions}
+                answer={answer}
+              />
+            </Footer>
           </>
         )}
+
         {status === 'finish' && (
           <EndScreen
             dispatch={dispatch}

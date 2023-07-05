@@ -12,18 +12,10 @@ export type QuizState = {
   answer: null | number;
   points: number;
   highscore: number;
+  secondsRemaining: number | null;
 };
 
 export interface Action {
   type: string;
   payload?: any;
 }
-
-export const initialState: QuizState = {
-  questions: [],
-  status: 'loading',
-  curIndex: 0,
-  answer: null,
-  points: 0,
-  highscore: 0,
-};
