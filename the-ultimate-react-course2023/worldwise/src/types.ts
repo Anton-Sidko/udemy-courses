@@ -7,3 +7,8 @@ export type CityType = {
   position: { lat: string; lng: string };
   id: number;
 };
+
+export type CountryType = {
+  countryName: string;
+  emoji: string;
+};

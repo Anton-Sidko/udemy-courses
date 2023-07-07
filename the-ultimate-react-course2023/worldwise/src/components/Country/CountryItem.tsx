@@ -1,10 +1,18 @@
+import { CountryType } from '../../types';
+import { flagEmojiToPNG } from '../../utils';
 import styles from './CountryItem.module.css';
 
-const CountryItem = function ({ country }): React.JSX.Element {
+const CountryItem = function ({
+  country,
+}: {
+  country: CountryType;
+}): React.JSX.Element {
+  const { countryName, emoji } = country;
+
   return (
     <li className={styles.countryItem}>
-      <span>{country.emoji}</span>
-      <span>{country.country}</span>
+      <span>{flagEmojiToPNG(emoji)}</span>
+      <span>{countryName}</span>
     </li>
   );
 };
