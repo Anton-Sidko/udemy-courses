@@ -1,15 +1,5 @@
+import { formatDate } from '../../utils';
 import styles from './City.module.css';
-
-const formatDate = (date: string | null) => {
-  if (date === null) return null;
-
-  return new Intl.DateTimeFormat('en', {
-    day: 'numeric',
-    month: 'long',
-    year: 'numeric',
-    weekday: 'long',
-  }).format(new Date(date));
-};
 
 const City = function (): React.JSX.Element {
   // TEMP DATA
@@ -54,9 +44,7 @@ const City = function (): React.JSX.Element {
         </a>
       </div>
 
-      <div>
-        <ButtonBack />
-      </div>
+      <div>{/* <ButtonBack /> */}</div>
     </div>
   );
 };
