@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 
 import { CityType } from './types';
 
@@ -11,6 +11,8 @@ import AppLayout from './pages/AppLayout';
 import CityList from './components/City/CityList';
 import PageNotFount from './pages/PageNotFount';
 import CountryList from './components/Country/CountryList';
+import City from './components/City/City';
+import Form from './components/Form/Form';
 
 const BASE_URL = 'http://localhost:8000';
 
@@ -58,6 +60,7 @@ const App = function (): React.JSX.Element {
           path="login"
           element={<Login />}
         />
+
         <Route
           path="app"
           element={<AppLayout />}
@@ -65,9 +68,9 @@ const App = function (): React.JSX.Element {
           <Route
             index
             element={
-              <CityList
-                cities={cities}
-                isLoading={isLoading}
+              <Navigate
+                replace
+                to="cities"
               />
             }
           />
@@ -81,6 +84,10 @@ const App = function (): React.JSX.Element {
             }
           />
           <Route
+            path="cities/:id"
+            element={<City />}
+          />
+          <Route
             path="countries"
             element={
               <CountryList
@@ -91,9 +98,10 @@ const App = function (): React.JSX.Element {
           />
           <Route
             path="form"
-            element={<p>Form</p>}
+            element={<Form />}
           />
         </Route>
+
         <Route
           path="*"
           element={<PageNotFount />}
