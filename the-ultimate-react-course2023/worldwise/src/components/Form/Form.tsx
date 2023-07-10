@@ -4,28 +4,21 @@ import { useState } from 'react';
 
 import styles from './Form.module.css';
 import Button from '../Button/Button';
-import { useNavigate } from 'react-router-dom';
+import BackButton from '../Button/BackButton';
 
-export const convertToEmoji = function (countryCode: string) {
-  const codePoints = countryCode
-    .toUpperCase()
-    .split('')
-    .map((char) => 127397 + char.charCodeAt());
-  return String.fromCodePoint(...codePoints);
-};
+// export const convertToEmoji = function (countryCode: string) {
+//   const codePoints = countryCode
+//     .toUpperCase()
+//     .split('')
+//     .map((char) => 127397 + char.charCodeAt());
+//   return String.fromCodePoint(...codePoints);
+// };
 
 const Form = function (): React.JSX.Element {
-  const navigate = useNavigate();
-
   const [cityName, setCityName] = useState('');
   const [country, setCountry] = useState('');
   const [date, setDate] = useState(new Date());
   const [notes, setNotes] = useState('');
-
-  const backBtnHandler = function (e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    navigate(-1);
-  };
 
   return (
     <form className={styles.form}>
@@ -59,12 +52,7 @@ const Form = function (): React.JSX.Element {
 
       <div className={styles.buttons}>
         <Button type="primary">Add</Button>
-        <Button
-          type="back"
-          onClick={backBtnHandler}
-        >
-          &larr; Back
-        </Button>
+        <BackButton />
       </div>
     </form>
   );

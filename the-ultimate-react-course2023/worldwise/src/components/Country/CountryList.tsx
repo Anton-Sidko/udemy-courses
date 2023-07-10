@@ -1,16 +1,15 @@
-import { CityType, CountryType } from '../../types';
-import Message from '../Message/Message';
+import { useCities } from '../../contexts/CitiesContext';
+import { CountryType } from '../../types';
 
+import Message from '../Message/Message';
 import Spinner from '../Spinner/Spinner';
 import CountryItem from './CountryItem';
+
 import styles from './CountryList.module.css';
 
-type CountryListProps = {
-  cities: CityType[];
-  isLoading: boolean;
-};
+const CountryList = function () {
+  const { cities, isLoading } = useCities();
 
-const CountryList = function ({ cities, isLoading }: CountryListProps) {
   if (isLoading) return <Spinner />;
 
   if (!cities.length)
