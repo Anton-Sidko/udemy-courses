@@ -8,6 +8,8 @@ type CitiesContextType = {
   currentCity: CityType | null;
   isLoading: boolean;
   getCity: (id: string | number) => void;
+  createCity: (newCity: CityType) => void;
+  deleteCity: (id: string | number) => void;
 };
 
 const CitiesContext = createContext<CitiesContextType>({} as CitiesContextType);
@@ -55,6 +57,46 @@ const CitiesProvider = function ({ children }: { children: React.ReactNode }) {
     }
   };
 
+  const createCity = async function (newCity: CityType) {
+    try {
+      setIsLoading(true);
+
+      const res = await fetch(`${BASE_URL}/cities/`, {
+        method: 'POST',
+        body: JSON.stringify(newCity),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      const data = await res.json();
+      setCities((cities) => [...cities, data]);
+    } catch (error) {
+      console.error(
+        `There was error creating city: ${(error as Error).message}`
+      );
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const deleteCity = async function (id: string | number) {
+    try {
+      setIsLoading(true);
+
+      await fetch(`${BASE_URL}/cities/${id}`, {
+        method: 'DELETE',
+      });
+
+      setCities((cities) => cities.filter((city) => city.id !== id));
+    } catch (error) {
+      console.error(
+        `There was error deleting city: ${(error as Error).message}`
+      );
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <CitiesContext.Provider
       value={{
@@ -62,6 +104,8 @@ const CitiesProvider = function ({ children }: { children: React.ReactNode }) {
         currentCity,
         isLoading,
         getCity,
+        createCity,
+        deleteCity,
       }}
     >
       {children}

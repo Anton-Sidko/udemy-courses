@@ -84,7 +84,7 @@ const Map = function (): React.JSX.Element {
 
 const ChangeCenter = function ({ position }: { position: LatLngExpression }) {
   const map = useMap();
-  map.setView(position, 11);
+  map.setView(position, 10);
   return null;
 };
 

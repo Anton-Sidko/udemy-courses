@@ -1,4 +1,4 @@
-export const formatDate = (date: string | null) => {
+export const formatDate = (date: string | null | Date) => {
   if (date === null) return null;
 
   return new Intl.DateTimeFormat('en', {
