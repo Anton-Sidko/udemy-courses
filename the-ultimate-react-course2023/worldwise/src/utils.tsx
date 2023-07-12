@@ -20,3 +20,20 @@ export const flagEmojiToPNG = (flag: string) => {
     />
   );
 };
+
+export const flagFromCode = (countryCode: string) => {
+  return (
+    <img
+      src={`https://flagcdn.com/24x18/${countryCode.toLowerCase()}.png`}
+      alt="country flag"
+    />
+  );
+};
+
+export const convertToEmoji = function (countryCode: string) {
+  const codePoints = countryCode
+    .toUpperCase()
+    .split('')
+    .map((char) => 127397 + char.charCodeAt(0));
+  return String.fromCodePoint(...codePoints);
+};

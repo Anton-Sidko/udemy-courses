@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import {
   MapContainer,
@@ -13,26 +13,25 @@ import { useCities } from '../../contexts/CitiesContext';
 import { LatLngExpression } from 'leaflet';
 import { flagEmojiToPNG } from '../../utils';
 import { useGeolocation } from '../../hooks/useGeolocation';
+import { useUrlPosition } from '../../hooks/useUrlPosition';
 
-import styles from './Map.module.css';
 import Button from '../Button/Button';
+import styles from './Map.module.css';
 
 const Map = function (): React.JSX.Element {
   const { cities } = useCities();
   const [mapPosition, setMapPosition] = useState<LatLngExpression>([40, 0]);
-  const [searchParams] = useSearchParams();
   const {
     isLoading: isLoadingPosition,
     position: geolocationPosition,
     getPosition,
   } = useGeolocation();
 
-  const mapLat = searchParams.get('lat');
-  const mapLng = searchParams.get('lng');
+  const [mapLat, mapLng] = useUrlPosition();
 
   useEffect(() => {
     if (mapLat !== null && mapLng !== null) {
-      setMapPosition([+mapLat, +mapLng]);
+      setMapPosition([mapLat, mapLng]);
     }
   }, [mapLat, mapLng]);
 
