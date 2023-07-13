@@ -21,6 +21,12 @@
 :global(.leaflet-popup .leaflet-popup-content) {
   font-size: 1.5rem;
   display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+:global(.leaflet-popup .leaflet-popup-content div) {
+  display: flex;
   align-items: center;
   gap: 1rem;
 }

@@ -21,7 +21,7 @@ const Homepage = function (): React.JSX.Element {
         </h2>
 
         <Link
-          to="/app"
+          to="/login"
           className="cta"
         >
           Start tracking now

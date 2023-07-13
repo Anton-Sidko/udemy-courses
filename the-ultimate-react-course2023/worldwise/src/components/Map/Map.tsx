@@ -63,17 +63,22 @@ const Map = function (): React.JSX.Element {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
 
-        {cities.map((city) => (
-          <Marker
-            position={[city.position.lat, city.position.lng]}
-            key={city.id}
-          >
-            <Popup>
-              <span>{flagEmojiToPNG(city.emoji)}</span>
-              <span>{city.cityName}</span>
-            </Popup>
-          </Marker>
-        ))}
+        {cities.map((city) => {
+          return city.position.lat !== null && city.position.lng !== null ? (
+            <Marker
+              position={[city.position.lat, city.position.lng]}
+              key={city.id}
+            >
+              <Popup>
+                <div>
+                  <span>{flagEmojiToPNG(city.emoji)}</span>
+                  <span>{city.cityName}</span>
+                </div>
+                {city.notes ? <span>{city.notes}</span> : null}
+              </Popup>
+            </Marker>
+          ) : null;
+        })}
 
         <ChangeCenter position={mapPosition} />
         <DetectMapClick />

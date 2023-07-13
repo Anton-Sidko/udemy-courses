@@ -1,5 +1,6 @@
 import Map from '../components/Map/Map';
 import Sidebar from '../components/Sidebar/Sidebar';
+import User from '../components/User/User';
 import styles from './AppLayout.module.css';
 
 const AppLayout = function (): React.JSX.Element {
@@ -7,6 +8,7 @@ const AppLayout = function (): React.JSX.Element {
     <div className={styles.app}>
       <Sidebar />
       <Map />
+      <User />
     </div>
   );
 };
