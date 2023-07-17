@@ -14,7 +14,7 @@ const City = function (): React.JSX.Element {
 
   useEffect(() => {
     if (id) getCity(id);
-  }, [id]);
+  }, [id, getCity]);
 
   if (isLoading) return <Spinner />;
   if (currentCity === null) return <h1>No city data</h1>;
