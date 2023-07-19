@@ -1,63 +1,18 @@
-import { createStore } from 'redux';
+import { applyMiddleware, combineReducers, createStore } from 'redux';
+import thunk from 'redux-thunk';
+import { composeWithDevTools } from 'redux-devtools-extension';
 
-const initialState = {
-  balance: 0,
-  loan: 0,
-  loanPurpose: '',
-};
+import accountReducer from './features/accounts/accountSlice';
+import customerReducer from './features/customers/customerSlice';
 
-const reducer = function (state = initialState, action) {
-  switch (action.type) {
-    case 'account/deposit':
-      return {
-        ...state,
-        balance: state.balance + action.payload,
-      };
-
-    case 'account/withdraw':
-      return {
-        ...state,
-        balance: state.balance - action.payload,
-      };
-
-    case 'account/requestLoan':
-      if (state.loan > 0) return state;
-
-      return {
-        ...state,
-        balance: state.balance + action.payload.amount,
-        loan: action.payload.amount,
-        loanPurpose: action.payload.purpose,
-      };
-
-    case 'account/payLoan':
-      if (!state.loan || state.balance < state.loan) return state;
-
-      return {
-        ...state,
-        balance: state.balance - state.loan,
-        loan: 0,
-        loanPurpose: '',
-      };
-
-    default:
-      return state;
-  }
-};
-
-const store = createStore(reducer);
-
-store.dispatch({ type: 'account/deposit', payload: 500 });
-store.dispatch({ type: 'account/withdraw', payload: 200 });
-console.log(store.getState());
-
-store.dispatch({
-  type: 'account/requestLoan',
-  payload: { amount: 1000, purpose: 'Buy a car' },
+const rootReducer = combineReducers({
+  account: accountReducer,
+  customer: customerReducer,
 });
-console.log(store.getState());
 
-store.dispatch({
-  type: 'account/payLoan',
-});
-console.log(store.getState());
+const store = createStore(
+  rootReducer,
+  composeWithDevTools(applyMiddleware(thunk))
+);
+
+export default store;
