@@ -1,11 +1,11 @@
 import { useState } from 'react';
 
-function CreateUser() {
+const CreateUser = function (): React.JSX.Element {
   const [username, setUsername] = useState('');
 
-  function handleSubmit(e) {
+  const handleSubmit = function (e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-  }
+  };
 
   return (
     <form onSubmit={handleSubmit}>
@@ -25,6 +25,7 @@ function CreateUser() {
       )}
     </form>
   );
-}
+};
 
 export default CreateUser;
+

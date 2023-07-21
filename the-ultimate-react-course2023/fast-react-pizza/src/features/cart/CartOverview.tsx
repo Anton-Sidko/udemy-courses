@@ -1,4 +1,4 @@
-function CartOverview() {
+const CartOverview = function (): React.JSX.Element {
   return (
     <div>
       <p>
@@ -8,6 +8,7 @@ function CartOverview() {
       <a href="#">Open cart &rarr;</a>
     </div>
   );
-}
+};
 
 export default CartOverview;
+

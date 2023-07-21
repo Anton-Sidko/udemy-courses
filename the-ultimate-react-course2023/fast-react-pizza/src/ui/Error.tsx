@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 
-function NotFound() {
+const NotFound = function (): React.JSX.Element {
   const navigate = useNavigate();
 
   return (
@@ -10,6 +10,7 @@ function NotFound() {
       <button onClick={() => navigate(-1)}>&larr; Go back</button>
     </div>
   );
-}
+};
 
 export default NotFound;
+

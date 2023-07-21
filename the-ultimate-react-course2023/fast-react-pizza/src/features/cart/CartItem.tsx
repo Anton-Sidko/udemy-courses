@@ -1,4 +1,7 @@
-function CartItem({ item }) {
+import { cartItemType } from '../../types';
+import { formatCurrency } from '../../utils/helpers';
+
+function CartItem({ item }: { item: cartItemType }): React.JSX.Element {
   const { pizzaId, name, quantity, totalPrice } = item;
 
   return (
@@ -14,3 +17,4 @@ function CartItem({ item }) {
 }
 
 export default CartItem;
+

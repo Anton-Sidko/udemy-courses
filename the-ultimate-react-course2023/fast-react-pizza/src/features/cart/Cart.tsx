@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
+import { cartItemType } from '../../types';
 
-const fakeCart = [
+const fakeCart: cartItemType[] = [
   {
     pizzaId: 12,
     name: 'Mediterranean',
@@ -24,7 +25,7 @@ const fakeCart = [
   },
 ];
 
-function Cart() {
+const Cart = function (): React.JSX.Element {
   const cart = fakeCart;
 
   return (
@@ -39,6 +40,7 @@ function Cart() {
       </div>
     </div>
   );
-}
+};
 
 export default Cart;
+
