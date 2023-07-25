@@ -1,8 +1,10 @@
-import { useState } from 'react';
-import { cartItemType } from '../../types';
+// import { useState } from 'react';
+import { Form, LoaderFunctionArgs, redirect } from 'react-router-dom';
+import { cartItemType, orderType } from '../../types';
+import { createOrder } from '../../services/apiRestaurant';
 
 // https://uibakery.io/regex-library/phone-number
-const isValidPhone = (str) =>
+const isValidPhone = (str: string) =>
   /^\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/.test(
     str
   );
@@ -39,7 +41,10 @@ const CreateOrder = function (): React.JSX.Element {
     <div>
       <h2>Ready to order? Let's go!</h2>
 
-      <form>
+      <Form
+        method="POST"
+        // action="/order/new"
+      >
         <div>
           <label>First Name</label>
           <input
@@ -83,12 +88,35 @@ const CreateOrder = function (): React.JSX.Element {
         </div>
 
         <div>
+          <input
+            type="hidden"
+            name="cart"
+            value={JSON.stringify(cart)}
+          />
           <button>Order now</button>
         </div>
-      </form>
+      </Form>
     </div>
   );
 };
+
+const action = async function ({ request }: LoaderFunctionArgs) {
+  const formData = await request.formData();
+  const data = Object.fromEntries(formData);
+
+  const order = {
+    ...data,
+    cart: JSON.parse(data.cart as string),
+    priority: data.priority === 'on',
+  };
+
+  const newOrder = await createOrder(order as orderType);
+
+  return redirect(`/order/${newOrder.id}`);
+};
+
+// eslint-disable-next-line react-refresh/only-export-components
+export { action };
 
 export default CreateOrder;
 

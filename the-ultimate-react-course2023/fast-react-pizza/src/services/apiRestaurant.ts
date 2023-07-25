@@ -12,7 +12,7 @@ export async function getMenu(): Promise<pizzaType[]> {
   return data;
 }
 
-export async function getOrder(id: string) {
+export async function getOrder(id: string): Promise<orderType> {
   const res = await fetch(`${API_URL}/order/${id}`);
   if (!res.ok) throw Error(`Couldn't find order #${id}`);
 
@@ -20,7 +20,7 @@ export async function getOrder(id: string) {
   return data;
 }
 
-export async function createOrder(newOrder: orderType) {
+export async function createOrder(newOrder: orderType): Promise<orderType> {
   try {
     const res = await fetch(`${API_URL}/order`, {
       method: 'POST',
