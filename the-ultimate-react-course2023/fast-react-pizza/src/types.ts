@@ -28,3 +28,7 @@ export type orderType = {
   priorityPrice: number;
   status?: string;
 };
+
+export type orderFormErrors = {
+  phone?: string;
+};

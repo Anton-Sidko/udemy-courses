@@ -51,4 +51,3 @@ const App = function (): React.JSX.Element {
 };
 
 export default App;
-
