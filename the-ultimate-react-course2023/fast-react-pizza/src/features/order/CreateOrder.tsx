@@ -54,21 +54,13 @@ const CreateOrder = function (): React.JSX.Element {
       >
         <div>
           <label>First Name</label>
-          <input
-            type="text"
-            name="customer"
-            required
-          />
+          <input type="text" name="customer" required />
         </div>
 
         <div>
           <label>Phone number</label>
           <div>
-            <input
-              type="tel"
-              name="phone"
-              required
-            />
+            <input type="tel" name="phone" required />
           </div>
           {formErrors && 'phone' in formErrors && <p>{formErrors.phone}</p>}
         </div>
@@ -77,6 +69,7 @@ const CreateOrder = function (): React.JSX.Element {
           <label>Address</label>
           <div>
             <input
+              className="w-full rounded-full border border-stone-200 px-4 py-2 text-sm transition-all duration-300 placeholder:text-stone-400 focus:outline-none focus:ring focus:ring-yellow-400 md:px-6 md:py-3"
               type="text"
               name="address"
               required
@@ -86,6 +79,7 @@ const CreateOrder = function (): React.JSX.Element {
 
         <div>
           <input
+            className="h-6 w-6 accent-yellow-400 focus:outline-none focus:ring focus:ring-yellow-400 focus:ring-offset-2"
             type="checkbox"
             name="priority"
             id="priority"
@@ -96,12 +90,11 @@ const CreateOrder = function (): React.JSX.Element {
         </div>
 
         <div>
-          <input
-            type="hidden"
-            name="cart"
-            value={JSON.stringify(cart)}
-          />
-          <button disabled={isSubmitting}>
+          <input type="hidden" name="cart" value={JSON.stringify(cart)} />
+          <button
+            disabled={isSubmitting}
+            className="inline-block rounded-full bg-yellow-400 px-4 py-3 font-semibold uppercase tracking-wide text-stone-800 transition-colors duration-300 hover:bg-yellow-300 focus:bg-yellow-300 focus:outline-none focus:ring focus:ring-yellow-300 focus:ring-offset-2 disabled:cursor-not-allowed"
+          >
             {isSubmitting ? 'Placing order...' : 'Order now'}
           </button>
         </div>
@@ -139,4 +132,3 @@ const action = async function ({ request }: LoaderFunctionArgs) {
 export { action };
 
 export default CreateOrder;
-
