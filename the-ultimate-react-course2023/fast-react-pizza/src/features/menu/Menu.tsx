@@ -8,12 +8,9 @@ const Menu = function (): React.JSX.Element {
   const menu = useLoaderData() as Awaited<ReturnType<typeof loader>>;
 
   return (
-    <ul>
+    <ul className="divide-y divide-stone-300 px-2">
       {menu.map((pizza) => (
-        <MenuItem
-          pizza={pizza}
-          key={pizza.id}
-        />
+        <MenuItem pizza={pizza} key={pizza.id} />
       ))}
     </ul>
   );
@@ -28,4 +25,3 @@ const loader = async function () {
 export { loader };
 
 export default Menu;
-

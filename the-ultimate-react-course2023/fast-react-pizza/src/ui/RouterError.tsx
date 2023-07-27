@@ -16,9 +16,9 @@ const RouterError = function (): React.JSX.Element {
   }
 
   return (
-    <div>
-      <h1>Something went wrong 😢</h1>
-      <p>{errorMessage}</p>
+    <div className="px-4 py-6">
+      <h1 className="text-xl font-semibold">Something went wrong 😢</h1>
+      <p className="mb-2">{errorMessage}</p>
 
       <LinkButton to="-1">&larr; Go back</LinkButton>
     </div>
