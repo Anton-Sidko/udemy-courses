@@ -32,3 +32,9 @@ export type orderType = {
 export type orderFormErrors = {
   phone?: string;
 };
+
+export interface RootState {
+  user: {
+    username: string;
+  };
+}

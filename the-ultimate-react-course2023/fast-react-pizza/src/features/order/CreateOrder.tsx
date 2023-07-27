@@ -6,8 +6,14 @@ import {
   useActionData,
   useNavigation,
 } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
-import { cartItemType, orderFormErrors, orderType } from '../../types';
+import {
+  RootState,
+  cartItemType,
+  orderFormErrors,
+  orderType,
+} from '../../types';
 import { createOrder } from '../../services/apiRestaurant';
 import { isValidPhone } from '../../utils/helpers';
 
@@ -38,6 +44,8 @@ const fakeCart: cartItemType[] = [
 ];
 
 const CreateOrder = function (): React.JSX.Element {
+  const userName = useSelector((state: RootState) => state.user.username);
+
   const navigation = useNavigation();
   const isSubmitting = navigation.state === 'submitting';
 
@@ -62,6 +70,7 @@ const CreateOrder = function (): React.JSX.Element {
               type="text"
               name="customer"
               required
+              defaultValue={userName}
             />
           </div>
         </div>

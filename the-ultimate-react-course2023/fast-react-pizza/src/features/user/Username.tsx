@@ -1,5 +1,14 @@
-const Username = function (): React.JSX.Element {
-  return <div className="hidden text-sm font-semibold md:block">Anton</div>;
+import { useSelector } from 'react-redux';
+import { RootState } from '../../types';
+
+const Username = function (): React.ReactNode {
+  const userName = useSelector((state: RootState) => state.user.username);
+
+  if (!userName) return null;
+
+  return (
+    <div className="hidden text-sm font-semibold md:block">{userName}</div>
+  );
 };
 
 export default Username;
