@@ -1,5 +1,5 @@
 export type cartItemType = {
-  pizzaId: number;
+  pizzaId: number | string;
   name: string;
   quantity: number;
   unitPrice: number;
@@ -7,7 +7,7 @@ export type cartItemType = {
 };
 
 export type pizzaType = {
-  id: string;
+  id: number | string;
   name: string;
   unitPrice: number;
   ingredients: string[];
@@ -36,5 +36,8 @@ export type orderFormErrors = {
 export interface RootState {
   user: {
     username: string;
+  };
+  cart: {
+    cart: cartItemType[];
   };
 }

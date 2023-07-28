@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { RootState } from '../../types';
 
 // import { getAddress } from '../../services/apiGeocoding';
 
@@ -15,6 +16,8 @@ const userSlice = createSlice({
     },
   },
 });
+
+export const getUsername = (state: RootState) => state.user.username;
 
 export const { updateName } = userSlice.actions;
 

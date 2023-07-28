@@ -5,11 +5,13 @@ const Button = function ({
   disabled,
   to,
   type = 'primary',
+  onClick,
 }: {
   children: React.ReactNode;
   disabled?: boolean;
   to?: string;
   type?: 'primary' | 'small' | 'secondary';
+  onClick?: () => void;
 }): React.JSX.Element {
   const base =
     'inline-block text-sm rounded-full bg-yellow-400 font-semibold uppercase tracking-wide text-stone-800 transition-colors duration-300 hover:bg-yellow-300 focus:bg-yellow-300 focus:outline-none focus:ring focus:ring-yellow-300 focus:ring-offset-2 disabled:cursor-not-allowed ';
@@ -21,18 +23,24 @@ const Button = function ({
       'inline-block text-sm rounded-full border-2 border-stone-300 font-semibold uppercase tracking-wide text-stone-400 transition-colors duration-300 hover:bg-stone-300 hover:text-stone-800 focus:bg-stone-300 focus:outline-none focus:text-stone-800 focus:ring focus:ring-stone-300 focus:ring-offset-2 disabled:cursor-not-allowed px-3 py-2 md:px-5 md:py-2.5',
   };
 
+  if (to)
+    return (
+      <Link to={to} className={styles[type]} onClick={onClick}>
+        {children}
+      </Link>
+    );
+
+  if (onClick)
+    return (
+      <button className={styles[type]} disabled={disabled} onClick={onClick}>
+        {children}
+      </button>
+    );
+
   return (
-    <>
-      {to ? (
-        <Link to={to} className={styles[type]}>
-          {children}
-        </Link>
-      ) : (
-        <button className={styles[type]} disabled={disabled}>
-          {children}
-        </button>
-      )}
-    </>
+    <button className={styles[type]} disabled={disabled}>
+      {children}
+    </button>
   );
 };
 
