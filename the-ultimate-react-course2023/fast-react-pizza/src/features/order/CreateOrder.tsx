@@ -6,13 +6,13 @@ import {
   useActionData,
   useNavigation,
 } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 import { orderFormErrors, orderType } from '../../types';
 import { createOrder } from '../../services/apiRestaurant';
 import { formatCurrency, isValidPhone } from '../../utils/helpers';
 import { clearCart, getCart, getTotalCartPrice } from '../cart/cartSlice';
-import { getUsername } from '../user/userSlice';
+import { fetchAddress, getUser } from '../user/userSlice';
 
 import store from '../../store';
 
@@ -26,11 +26,26 @@ const CreateOrder = function (): React.JSX.Element {
   const [withPriority, setWithPriority] = useState(false);
   const isSubmitting = navigation.state === 'submitting';
 
-  const userName = useSelector(getUsername);
+  const {
+    username: userName,
+    status: addressStatus,
+    position,
+    address,
+    error: errorGetAddress,
+  } = useSelector(getUser);
   const cart = useSelector(getCart);
   const totalCartPrice = useSelector(getTotalCartPrice);
   const priorityPrice = withPriority ? totalCartPrice * 0.2 : 0;
   const totalPrice = totalCartPrice + priorityPrice;
+  const isLoadingAddress = addressStatus === 'loading';
+
+  // INFO <typeof store.dispatch> for fix problem with different action type
+  const dispatch = useDispatch<typeof store.dispatch>();
+
+  const handleGetPosition = function (e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    dispatch(fetchAddress());
+  };
 
   if (!cart.length) return <EmptyCart />;
 
@@ -67,7 +82,7 @@ const CreateOrder = function (): React.JSX.Element {
           </div>
         </div>
 
-        <div className="mb-5 flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-4">
+        <div className="relative mb-5 flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-4">
           <label className="sm:shrink-0 sm:basis-36">Address</label>
           <div className="grow">
             <input
@@ -75,8 +90,27 @@ const CreateOrder = function (): React.JSX.Element {
               type="text"
               name="address"
               required
+              disabled={isLoadingAddress}
+              defaultValue={address}
             />
+            {addressStatus === 'error' && (
+              <p className="mt-2 rounded-md bg-red-100 p-2 text-xs text-red-700">
+                {errorGetAddress}
+              </p>
+            )}
           </div>
+
+          {!position.latitude && !position.longitude && (
+            <span className="absolute right-[3px] top-[3px] z-50">
+              <Button
+                type="small"
+                onClick={handleGetPosition}
+                disabled={isLoadingAddress}
+              >
+                Get position
+              </Button>
+            </span>
+          )}
         </div>
 
         <div className="mb-10 flex items-center gap-4">
@@ -95,7 +129,17 @@ const CreateOrder = function (): React.JSX.Element {
 
         <div>
           <input type="hidden" name="cart" value={JSON.stringify(cart)} />
-          <Button disabled={isSubmitting} type="primary">
+          <input
+            type="hidden"
+            name="position"
+            value={
+              position.latitude && position.longitude
+                ? `${position.latitude}, ${position.longitude}`
+                : ''
+            }
+          />
+
+          <Button disabled={isSubmitting || isLoadingAddress} type="primary">
             {isSubmitting
               ? 'Placing order...'
               : `Order now for ${formatCurrency(totalPrice)}`}

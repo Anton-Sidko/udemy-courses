@@ -33,9 +33,18 @@ export type orderFormErrors = {
   phone?: string;
 };
 
+export type PositionType = {
+  latitude: string;
+  longitude: string;
+};
+
 export interface RootState {
   user: {
     username: string;
+    status: string;
+    position: PositionType;
+    address: string;
+    error: string;
   };
   cart: {
     cart: cartItemType[];
